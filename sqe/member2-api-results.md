@@ -48,4 +48,6 @@ On native Windows with CPython 3.12.10, Django 5.2.19, pytest 9.2.0 and SQLite, 
 
 The happy-path payments, both same-order cancellation branches, replay and access checks passed. The two malformed query-filter cases also completed with the default active-position view, consistent with the implementation's string comparison. The tests preserve the failing business assertions for subsequent fixes.
 
+A second run at `65eca1d60` with the browser work in progress restored the fresh seeded SQLite snapshot and ran the same API command. The quota assertion permits a failed or unconfirmed attempt. The same ten cases failed, with 62 passes and zero skips in 21.27 seconds.
+
 [API tests](../src/tests/team/api/test_orders_api.py) · [Actions](../src/pretix/api/views/order.py) · [Cancellation service](../src/pretix/base/services/orders.py)

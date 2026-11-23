@@ -55,3 +55,7 @@ The counts and uncommitted status above describe the earlier audit snapshot. Fol
 Pre-commit checks passed for Python lint using `src/setup.cfg`, JavaScript syntax, PowerShell parsing and tracked diff whitespace. Functional test counts above remain from the saved runs; suites were not rerun for committing. These commits are local; publishing and live CI verification remain pending.
 
 When the lecture PDF folder is supplied, cross-check each phase and the final submission checklist against it. Review teammate contributions when requested. Neither review has been completed yet.
+
+## Member 2 update · 23 November 2026
+
+Branch `sqe/api-and-e2e` implements the three Member 2 checklist rows. Both 79-row datasets reproduced from the scoped contract. The API suite recorded 62 passes and 10 failures across four findings. Chromium passed all 10 new UC-03/04 flows and all 10 existing UC-01/02 flows. The API findings remain open for product triage. [API matrix and evidence](../sqe/member2-api-results.md) · [Browser cases and evidence](../sqe/member2-browser-results.md)
