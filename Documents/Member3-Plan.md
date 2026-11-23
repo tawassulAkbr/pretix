@@ -1,7 +1,7 @@
 # Member 3 — Test plan for use cases, usability, accessibility, security, performance and recovery
 
 Owner: Member 3 (GitHub `Zubairilyas1`) · Branch: `sqe/browser-quality` · Baseline: upstream `526a79c7d`, team fork `tawassulAkbr/pretix`
-Status: **Draft v0.1 — 23 Nov 2026.** Update the version and the change log at the bottom every time this plan changes. The brief says "keep it updated".
+Status: **v0.2 — 23 Nov 2026 (executed; results in `sqe/member3/`).** Update the version and the change log at the bottom every time this plan changes. The brief says "keep it updated".
 
 This plan covers the rubric items Member 3 is examined on:
 
@@ -448,3 +448,4 @@ Open the PR to `master`. Ask Tawassul to add `access.spec.js`, the a11y scan and
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-11-23 | Initial plan from source review; hypotheses H1–H5 not yet executed |
+| 0.2 | 2026-11-23 | Execution results. **H1 confirmed → D-01** (negative fee stored, total −0.01). **H2 confirmed → D-02** (confirmed −0.01 payment). **H3** not executed (API area, handed to Member 2). **H4 confirmed → D-04** (REC-02b strict xfail). **H5 confirmed → D-03**, reproduced with a non-numeric amount because the date picker replaces an unparseable date client-side (new observation U-01); UC-05 E1 is now "missing date blocked by the browser". New findings: D-05 (anti-phishing origin check ignores the port), C5 (session pinned to User-Agent), SEC-F1..F4. Risk IDs R18 redefined (deployment-dependent protections) and R19–R21 added. Results: `sqe/member3/*.md`. |
