@@ -1,0 +1,344 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "pretix SQE Orders",
+    "version": "1.0.0",
+    "description": "Scoped JSON client contract for the synthetic English EUR event at pretix revision 526a79c7d. Input validation gaps are tracked against this contract."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:18081"
+    }
+  ],
+  "security": [
+    {
+      "teamToken": []
+    }
+  ],
+  "paths": {
+    "/api/v1/organizers/{organizer}/events/{event}/orders/{code}/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/organizer"
+        },
+        {
+          "$ref": "#/components/parameters/event"
+        },
+        {
+          "$ref": "#/components/parameters/code"
+        }
+      ],
+      "get": {
+        "operationId": "readOrder",
+        "summary": "Read an order",
+        "responses": {
+          "200": {
+            "description": "Order detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Missing permission or inaccessible organizer/event"
+          },
+          "404": {
+            "description": "Resource not found"
+          }
+        },
+        "parameters": [
+          {
+            "name": "include_canceled_positions",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "Use true for a complete position readback."
+          }
+        ]
+      }
+    },
+    "/api/v1/organizers/{organizer}/events/{event}/orders/{code}/mark_paid/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/organizer"
+        },
+        {
+          "$ref": "#/components/parameters/event"
+        },
+        {
+          "$ref": "#/components/parameters/code"
+        }
+      ],
+      "post": {
+        "operationId": "mark_paid",
+        "summary": "Record the outstanding balance as a manual payment",
+        "responses": {
+          "200": {
+            "description": "Order detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid fee, ineligible state or insufficient quota"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Missing permission or inaccessible organizer/event"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "409": {
+            "description": "Lock conflict"
+          }
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pay"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizers/{organizer}/events/{event}/orders/{code}/mark_canceled/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/organizer"
+        },
+        {
+          "$ref": "#/components/parameters/event"
+        },
+        {
+          "$ref": "#/components/parameters/code"
+        }
+      ],
+      "post": {
+        "operationId": "mark_canceled",
+        "summary": "Cancel an order with an eligible position",
+        "responses": {
+          "200": {
+            "description": "Order detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid fee, ineligible state or insufficient quota"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Missing permission or inaccessible organizer/event"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "409": {
+            "description": "Lock conflict"
+          }
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cancel"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "teamToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "description": "Token followed by a space and the scoped team token."
+      }
+    },
+    "parameters": {
+      "organizer": {
+        "name": "organizer",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 50,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9.-]*[A-Za-z0-9]$",
+          "example": "sqe-orders"
+        }
+      },
+      "event": {
+        "name": "event",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "pattern": "^[A-Za-z0-9]([A-Za-z0-9.-]*[A-Za-z0-9])?$",
+          "example": "orders"
+        }
+      },
+      "code": {
+        "name": "code",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16,
+          "pattern": "^[A-Z0-9]+$",
+          "description": "Lookup profile for the uppercase alphanumeric codes seeded directly by the SQE harness.",
+          "example": "SQE02"
+        }
+      }
+    },
+    "schemas": {
+      "SendEmail": {
+        "type": "boolean",
+        "default": true,
+        "description": "Whether pretix sends the customer notification. Both actions read this value directly."
+      },
+      "CancellationFee": {
+        "description": "Optional EUR fee. Omission, null and numeric zero select ordinary cancellation. The upper bound is the starting order total. Use a decimal string or a JSON number.",
+        "anyOf": [
+          {
+            "type": "string",
+            "pattern": "^[0-9]{1,11}(\\.[0-9]{1,2})?$"
+          },
+          {
+            "type": "number",
+            "minimum": 0,
+            "multipleOf": 0.01,
+            "maximum": 99999999999.99
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "x-cap-field": "total",
+        "x-fixture-total": "20.00"
+      },
+      "Comment": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "default": null,
+        "description": "Optional cancellation notification text. Empty string accepted. No action-specific length bound."
+      },
+      "Pay": {
+        "type": "object",
+        "properties": {
+          "send_email": {
+            "$ref": "#/components/schemas/SendEmail"
+          }
+        }
+      },
+      "Cancel": {
+        "type": "object",
+        "properties": {
+          "send_email": {
+            "$ref": "#/components/schemas/SendEmail"
+          },
+          "comment": {
+            "$ref": "#/components/schemas/Comment"
+          },
+          "cancellation_fee": {
+            "$ref": "#/components/schemas/CancellationFee"
+          }
+        }
+      },
+      "Order": {
+        "type": "object",
+        "required": [
+          "code",
+          "status",
+          "total",
+          "cancellation_date",
+          "positions",
+          "payments",
+          "fees",
+          "refunds"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "n",
+              "p",
+              "e",
+              "c"
+            ]
+          },
+          "total": {
+            "type": "string"
+          },
+          "cancellation_date": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "positions": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "payments": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "fees": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "refunds": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    }
+  }
+}

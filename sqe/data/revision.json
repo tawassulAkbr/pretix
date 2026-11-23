@@ -1,0 +1,10 @@
+[
+  {
+    "path": "/components/parameters/code/schema/maxLength",
+    "value": 12
+  },
+  {
+    "path": "/components/schemas/CancellationFee/x-fixture-total",
+    "value": "25.00"
+  }
+]
