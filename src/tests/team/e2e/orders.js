@@ -27,16 +27,20 @@ export const test = base.extend({
                 await expect(page).toHaveURL(new RegExp(orderPath + '$'));
                 await expect(page.getByRole('heading', { name: new RegExp(code) })).toBeVisible();
             },
-            async read(alias) {
+            async read(alias, { includeCanceled = false } = {}) {
                 const code = codeFor(alias);
                 const path = '/api/v1/organizers/' + encodeURIComponent(fixtures.organizer)
                     + '/events/' + encodeURIComponent(fixtures.event) + '/orders/' + code + '/';
                 const response = await request.get(path, {
                     headers: { Authorization: 'Token ' + fixtures.roles.viewer.token },
+                    params: { include_canceled_positions: String(includeCanceled) },
                 });
                 expect(response.status(), 'scoped API order read').toBe(200);
-                const { status, total, cancellation_date: cancellationDate, positions, payments, fees, refunds } = await response.json();
+                const order = await response.json();
+                expect(order.code).toBe(code);
+                const { status, total, cancellation_date: cancellationDate, positions, payments, fees, refunds } = order;
                 return {
+                    code,
                     status,
                     total,
                     cancellationDate,
@@ -53,3 +57,15 @@ export const test = base.extend({
 });
 
 export { expect };
+
+export async function pay(page, { amount = '20.00', date } = {}) {
+    await page.getByRole('link', { name: /Mark as paid$/ }).click();
+    await page.getByLabel('Payment amount').fill(amount);
+    await page.getByLabel('Notify customer by email').uncheck();
+    if (date) {
+        const dateField = page.getByLabel('Payment date');
+        await dateField.fill(date);
+        await dateField.press('Escape');
+    }
+    await page.getByRole('button', { name: 'Create payment', exact: true }).click();
+}

@@ -1,18 +1,6 @@
-import { expect, test } from './orders.js';
+import { expect, pay, test } from './orders.js';
 
 const confirmed = (order) => order.payments.filter(({ state }) => state === 'confirmed');
-
-async function pay(page, { amount = '20.00', date } = {}) {
-    await page.getByRole('link', { name: /Mark as paid$/ }).click();
-    await page.getByLabel('Payment amount').fill(amount);
-    await page.getByLabel('Notify customer by email').uncheck();
-    if (date) {
-        const dateField = page.getByLabel('Payment date');
-        await dateField.fill(date);
-        await dateField.press('Escape');
-    }
-    await page.getByRole('button', { name: 'Create payment', exact: true }).click();
-}
 
 const successfulPayments = [
     { name: 'main pending order', alias: 'pay_pending', initial: 'n' },

@@ -45,6 +45,16 @@ ORDERS = {
     'api_blocked': ('APIBQ', 'e'),
     'api_view_cancel': ('APIVC', 'p'),
     'api_view_pay': ('APIVP', 'n'),
+    'fee_paid': ('FEE02', 'p'),
+    'fee_equal': ('FEE03', 'p'),
+    'fee_unfunded': ('FEE04', 'n'),
+    'fee_above': ('FEE05', 'p'),
+    'fee_scale': ('FEE06', 'p'),
+    'flow_no_fee': ('FLW02', 'n'),
+    'flow_fee': ('FLW03', 'n'),
+    'flow_expired': ('FLW04', 'e'),
+    'flow_blocked': ('FLW05', 'e'),
+    'flow_reject_fee': ('FLW06', 'n'),
 }
 
 # Each generated action owns a fresh order, including rejected inputs.
@@ -115,7 +125,7 @@ def seed(config):
                 cancellation_date=timestamp if status == Order.STATUS_CANCELED else None,
             )
             if alias != 'positionless':
-                item = scarce_ticket if alias in ('pay_quota_blocked', 'api_blocked', 'quota_holder') else ticket
+                item = scarce_ticket if alias in ('pay_quota_blocked', 'api_blocked', 'flow_blocked', 'quota_holder') else ticket
                 OrderPosition.objects.create(order=order, item=item, price=TOTAL)
             if status == Order.STATUS_PAID:
                 order.payments.create(
