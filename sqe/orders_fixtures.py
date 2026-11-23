@@ -39,23 +39,35 @@ ORDERS = {
     'journey': ('SQE02', 'n'),
     'retained_fee': ('SQE03', 'p'),
     'quota_holder': ('SQE04', 'p'),
+    'api_no_fee': ('APIJ2', 'n'),
+    'api_keep_fee': ('APIJ3', 'n'),
+    'api_late': ('APILT', 'e'),
+    'api_blocked': ('APIBQ', 'e'),
+    'api_view_cancel': ('APIVC', 'p'),
+    'api_view_pay': ('APIVP', 'n'),
 }
+
+# Each generated action owns a fresh order, including rejected inputs.
+api_rows = (Path(__file__).parent / 'data' / 'orders.jsonl').read_text(encoding='utf-8').splitlines()
+for index, row in enumerate(map(json.loads, api_rows)):
+    if row['location'] == 'body':
+        ORDERS[row['id']] = (f'API{index:03}', 'n' if row['operation'] == 'mark_paid' else 'p')
 
 
 def fixture_config():
     if CONFIG.is_file():
-        return json.loads(CONFIG.read_text(encoding='utf-8'))
-
-    config = {
-        'roles': {
-            role: {
-                'email': f'{role}@sqe.example.test',
-                'password': secrets.token_urlsafe(24),
-                'token': secrets.token_hex(32),
-            }
-            for role in ('manager', 'viewer')
-        },
-    }
+        config = json.loads(CONFIG.read_text(encoding='utf-8'))
+    else:
+        config = {
+            'roles': {
+                role: {
+                    'email': f'{role}@sqe.example.test',
+                    'password': secrets.token_urlsafe(24),
+                    'token': secrets.token_hex(32),
+                }
+                for role in ('manager', 'viewer')
+            },
+        }
     config.update(baseUrl=BASE_URL, organizer=ORGANIZER, event=EVENT)
     config['orders'] = {alias: code for alias, (code, _) in ORDERS.items()}
     config['priorPaymentDate'] = (now().date() - timedelta(days=1)).isoformat()
@@ -82,7 +94,7 @@ def seed(config):
         sales_channel = organizer.sales_channels.get(identifier='web')
         ticket = Item.objects.create(event=event, name='Workshop ticket', default_price=TOTAL, admission=True)
         scarce_ticket = Item.objects.create(event=event, name='Limited ticket', default_price=TOTAL, admission=True)
-        Quota.objects.create(event=event, name='Workshop seats', size=50).items.add(ticket)
+        Quota.objects.create(event=event, name='Workshop seats', size=len(ORDERS) + 10).items.add(ticket)
         Quota.objects.create(event=event, name='Limited seats', size=1).items.add(scarce_ticket)
 
         for role, credentials in config['roles'].items():
@@ -103,7 +115,7 @@ def seed(config):
                 cancellation_date=timestamp if status == Order.STATUS_CANCELED else None,
             )
             if alias != 'positionless':
-                item = scarce_ticket if alias in ('pay_quota_blocked', 'quota_holder') else ticket
+                item = scarce_ticket if alias in ('pay_quota_blocked', 'api_blocked', 'quota_holder') else ticket
                 OrderPosition.objects.create(order=order, item=item, price=TOTAL)
             if status == Order.STATUS_PAID:
                 order.payments.create(

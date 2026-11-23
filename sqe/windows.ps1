@@ -1,6 +1,6 @@
 param(
     [Parameter(Mandatory)]
-    [ValidateSet('check', 'reset', 'verify', 'serve', 'unit', 'mutation')]
+    [ValidateSet('check', 'reset', 'verify', 'serve', 'unit', 'mutation', 'api')]
     [string] $Action
 )
 
@@ -17,7 +17,20 @@ $oldConfig = $env:PRETIX_CONFIG_FILE
 $env:PYTHONPATH = "$repo;$repo\src"
 Push-Location (Join-Path $repo 'src')
 try {
-    if ($Action -in 'unit', 'mutation') {
+    if ($Action -eq 'api') {
+        $evidence = Join-Path $repo 'local\sqe\evidence'
+        New-Item -ItemType Directory -Force -Path $evidence | Out-Null
+        $oldLive = $env:SQE_LIVE_API
+        $oldPlugins = $env:PYTEST_DISABLE_PLUGIN_AUTOLOAD
+        try {
+            $env:SQE_LIVE_API = '1'
+            $env:PYTEST_DISABLE_PLUGIN_AUTOLOAD = '1'
+            & $python -m pytest -q --tb=short -c tests/team/api/pytest.ini --confcutdir=tests/team/api tests/team/api "--junitxml=$evidence\member2-api.xml"
+        } finally {
+            $env:SQE_LIVE_API = $oldLive
+            $env:PYTEST_DISABLE_PLUGIN_AUTOLOAD = $oldPlugins
+        }
+    } elseif ($Action -in 'unit', 'mutation') {
         $env:DJANGO_SETTINGS_MODULE = 'sqe.windows_unit_settings'
         $env:PRETIX_CONFIG_FILE = 'tests/ci_sqlite.cfg'
         if ($Action -eq 'mutation') {

@@ -1,0 +1,375 @@
+{
+  "environment": "Native Windows, Python 3.12.10, Django 5.2.19, pytest 9.2.0, local SQLite",
+  "base_commit": "c5783c9a3",
+  "working_tree": "Member 2 API and browser changes",
+  "run": {
+    "timestamp": "2026-11-23T16:35:26.040018+05:00",
+    "time": "24.254",
+    "tests": "72",
+    "failures": "10",
+    "errors": "0",
+    "skipped": "0"
+  },
+  "cases": [
+    {
+      "name": "test_get_resource[readOrder-organizer-existing]",
+      "seconds": 0.339,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-organizer-unknown]",
+      "seconds": 0.041,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-organizer-format]",
+      "seconds": 0.058,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-organizer-min-below]",
+      "seconds": 0.036,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-organizer-min-at]",
+      "seconds": 0.032,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-organizer-min-above]",
+      "seconds": 0.034,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-organizer-max-below]",
+      "seconds": 0.027,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-organizer-max-at]",
+      "seconds": 0.029,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-organizer-max-above]",
+      "seconds": 0.035,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-event-existing]",
+      "seconds": 0.111,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-event-unknown]",
+      "seconds": 0.034,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-event-format]",
+      "seconds": 0.034,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-event-min-at]",
+      "seconds": 0.032,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-event-min-above]",
+      "seconds": 0.026,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-event-max-below]",
+      "seconds": 0.03,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-event-max-at]",
+      "seconds": 0.027,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-event-max-above]",
+      "seconds": 0.029,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-code-existing]",
+      "seconds": 0.093,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-code-unknown]",
+      "seconds": 0.037,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-code-format]",
+      "seconds": 0.044,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-code-min-at]",
+      "seconds": 0.034,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-code-min-above]",
+      "seconds": 0.037,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-code-max-below]",
+      "seconds": 0.043,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-code-max-at]",
+      "seconds": 0.046,
+      "result": "pass"
+    },
+    {
+      "name": "test_get_resource[readOrder-code-max-above]",
+      "seconds": 0.049,
+      "result": "pass"
+    },
+    {
+      "name": "test_read_filter[readOrder-include_canceled_positions-default]",
+      "seconds": 0.859,
+      "result": "pass"
+    },
+    {
+      "name": "test_read_filter[readOrder-include_canceled_positions-all]",
+      "seconds": 0.22,
+      "result": "pass"
+    },
+    {
+      "name": "test_read_filter[readOrder-include_canceled_positions-active]",
+      "seconds": 0.107,
+      "result": "pass"
+    },
+    {
+      "name": "test_read_filter[readOrder-include_canceled_positions-text]",
+      "seconds": 0.094,
+      "result": "pass"
+    },
+    {
+      "name": "test_read_filter[readOrder-include_canceled_positions-empty]",
+      "seconds": 0.085,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_paid-send_email-omitted]",
+      "seconds": 1.669,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_paid-send_email-true]",
+      "seconds": 0.694,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_paid-send_email-false]",
+      "seconds": 0.537,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_paid-send_email-null]",
+      "seconds": 0.507,
+      "result": "failure"
+    },
+    {
+      "name": "test_generated_actions[mark_paid-send_email-text]",
+      "seconds": 0.663,
+      "result": "failure"
+    },
+    {
+      "name": "test_generated_actions[mark_paid-send_email-empty]",
+      "seconds": 0.488,
+      "result": "failure"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-send_email-omitted]",
+      "seconds": 0.567,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-send_email-true]",
+      "seconds": 0.575,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-send_email-false]",
+      "seconds": 0.475,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-send_email-null]",
+      "seconds": 0.933,
+      "result": "failure"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-send_email-text]",
+      "seconds": 0.524,
+      "result": "failure"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-send_email-empty]",
+      "seconds": 0.428,
+      "result": "failure"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-comment-omitted]",
+      "seconds": 0.428,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-comment-text]",
+      "seconds": 0.515,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-comment-null]",
+      "seconds": 0.436,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-comment-empty]",
+      "seconds": 0.438,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-comment-type]",
+      "seconds": 0.435,
+      "result": "failure"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-cancellation_fee-omitted]",
+      "seconds": 0.418,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-cancellation_fee-null]",
+      "seconds": 0.56,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-cancellation_fee-number]",
+      "seconds": 0.476,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-cancellation_fee-text]",
+      "seconds": 0.235,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-cancellation_fee-empty]",
+      "seconds": 0.377,
+      "result": "failure"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-cancellation_fee-type]",
+      "seconds": 0.214,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-cancellation_fee-min-below]",
+      "seconds": 0.363,
+      "result": "failure"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-cancellation_fee-min-at]",
+      "seconds": 0.387,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-cancellation_fee-min-above]",
+      "seconds": 0.365,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-cancellation_fee-cap-below]",
+      "seconds": 0.343,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-cancellation_fee-cap-at]",
+      "seconds": 0.351,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-cancellation_fee-cap-above]",
+      "seconds": 0.278,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-cancellation_fee-scale-1]",
+      "seconds": 0.357,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-cancellation_fee-scale-2]",
+      "seconds": 0.385,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-cancellation_fee-scale-3]",
+      "seconds": 0.223,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-cancellation_fee-capacity-below]",
+      "seconds": 0.262,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-cancellation_fee-capacity-at]",
+      "seconds": 0.274,
+      "result": "pass"
+    },
+    {
+      "name": "test_generated_actions[mark_canceled-cancellation_fee-capacity-above]",
+      "seconds": 0.215,
+      "result": "pass"
+    },
+    {
+      "name": "test_pay_then_cancel_and_replay[api_no_fee-0.00]",
+      "seconds": 0.981,
+      "result": "pass"
+    },
+    {
+      "name": "test_pay_then_cancel_and_replay[api_keep_fee-5.00]",
+      "seconds": 1.029,
+      "result": "pass"
+    },
+    {
+      "name": "test_pay_then_cancel_and_replay[api_late-0.00]",
+      "seconds": 1.047,
+      "result": "pass"
+    },
+    {
+      "name": "test_viewer_write_denied[api_view_pay-mark_paid]",
+      "seconds": 0.359,
+      "result": "pass"
+    },
+    {
+      "name": "test_viewer_write_denied[api_view_cancel-mark_canceled]",
+      "seconds": 0.307,
+      "result": "pass"
+    },
+    {
+      "name": "test_quota_rejection",
+      "seconds": 0.34,
+      "result": "failure"
+    },
+    {
+      "name": "test_positionless_cancellation",
+      "seconds": 0.192,
+      "result": "pass"
+    }
+  ]
+}
