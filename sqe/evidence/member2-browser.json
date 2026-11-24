@@ -1,0 +1,307 @@
+{
+  "environment": "Windows, Playwright 1.65.1, Chromium headless shell 159.0.8154.6, SQLite",
+  "stats": {
+    "startTime": "2026-11-23T11:35:55.334Z",
+    "duration": 433059.048,
+    "expected": 20,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "cases": [
+    {
+      "case": "UC-01 main pending order",
+      "result": "passed",
+      "milliseconds": 21772
+    },
+    {
+      "case": "UC-01 alternative prior payment date",
+      "result": "passed",
+      "milliseconds": 19400
+    },
+    {
+      "case": "UC-01 alternative expired order with quota",
+      "result": "passed",
+      "milliseconds": 19731
+    },
+    {
+      "case": "UC-01 exception excessive decimal precision",
+      "result": "passed",
+      "milliseconds": 19352
+    },
+    {
+      "case": "UC-01 exception expired order with exhausted quota",
+      "result": "passed",
+      "milliseconds": 20817
+    },
+    {
+      "case": "UC-02 main paid order without a fee",
+      "result": "passed",
+      "milliseconds": 17502
+    },
+    {
+      "case": "UC-02 alternative pending order without a fee",
+      "result": "passed",
+      "milliseconds": 19695
+    },
+    {
+      "case": "UC-02 alternative expired order without a fee",
+      "result": "passed",
+      "milliseconds": 24419
+    },
+    {
+      "case": "UC-02 exception viewer can read but cannot cancel",
+      "result": "passed",
+      "milliseconds": 14354
+    },
+    {
+      "case": "UC-02 exception already-canceled order has no cancellation action",
+      "result": "passed",
+      "milliseconds": 11801
+    },
+    {
+      "case": "UC-03-M fee_paid",
+      "result": "passed",
+      "milliseconds": 22709
+    },
+    {
+      "case": "UC-03-A1 fee_equal",
+      "result": "passed",
+      "milliseconds": 22972
+    },
+    {
+      "case": "UC-03-A2 fee_unfunded",
+      "result": "passed",
+      "milliseconds": 19419
+    },
+    {
+      "case": "UC-03-E1 fee_above",
+      "result": "passed",
+      "milliseconds": 19952
+    },
+    {
+      "case": "UC-03-E2 fee_scale",
+      "result": "passed",
+      "milliseconds": 20899
+    },
+    {
+      "case": "UC-04-M flow_no_fee",
+      "result": "passed",
+      "milliseconds": 29653,
+      "readbacks": {
+        "before": {
+          "code": "FLW02",
+          "status": "n",
+          "total": "20.00",
+          "cancellationDate": null,
+          "positions": [
+            {
+              "id": 25,
+              "canceled": false
+            }
+          ],
+          "payments": [],
+          "fees": [],
+          "refunds": []
+        },
+        "paid": {
+          "code": "FLW02",
+          "status": "p",
+          "total": "20.00",
+          "cancellationDate": null,
+          "positions": [
+            {
+              "id": 25,
+              "canceled": false
+            }
+          ],
+          "payments": [
+            {
+              "id": 1,
+              "amount": "20.00",
+              "provider": "manual",
+              "state": "confirmed",
+              "date": "2026-11-23T11:41:13.053876Z"
+            }
+          ],
+          "fees": [],
+          "refunds": []
+        },
+        "canceled": {
+          "code": "FLW02",
+          "status": "c",
+          "total": "20.00",
+          "cancellationDate": "2026-11-23T11:41:23.420506Z",
+          "positions": [
+            {
+              "id": 25,
+              "canceled": false
+            }
+          ],
+          "payments": [
+            {
+              "id": 1,
+              "amount": "20.00",
+              "provider": "manual",
+              "state": "confirmed",
+              "date": "2026-11-23T11:41:13.053876Z"
+            }
+          ],
+          "fees": [],
+          "refunds": []
+        }
+      }
+    },
+    {
+      "case": "UC-04-A1 flow_fee",
+      "result": "passed",
+      "milliseconds": 27518,
+      "readbacks": {
+        "before": {
+          "code": "FLW03",
+          "status": "n",
+          "total": "20.00",
+          "cancellationDate": null,
+          "positions": [
+            {
+              "id": 26,
+              "canceled": false
+            }
+          ],
+          "payments": [],
+          "fees": [],
+          "refunds": []
+        },
+        "paid": {
+          "code": "FLW03",
+          "status": "p",
+          "total": "20.00",
+          "cancellationDate": null,
+          "positions": [
+            {
+              "id": 26,
+              "canceled": false
+            }
+          ],
+          "payments": [
+            {
+              "id": 1,
+              "amount": "20.00",
+              "provider": "manual",
+              "state": "confirmed",
+              "date": "2026-11-23T11:41:41.086085Z"
+            }
+          ],
+          "fees": [],
+          "refunds": []
+        },
+        "canceled": {
+          "code": "FLW03",
+          "status": "p",
+          "total": "5.00",
+          "cancellationDate": "2026-11-23T11:41:51.485244Z",
+          "positions": [
+            {
+              "id": 26,
+              "canceled": true
+            }
+          ],
+          "payments": [
+            {
+              "id": 1,
+              "amount": "20.00",
+              "provider": "manual",
+              "state": "confirmed",
+              "date": "2026-11-23T11:41:41.086085Z"
+            }
+          ],
+          "fees": [
+            {
+              "type": "cancellation",
+              "value": "5.00"
+            }
+          ],
+          "refunds": []
+        }
+      }
+    },
+    {
+      "case": "UC-04-A2 flow_expired",
+      "result": "passed",
+      "milliseconds": 27290,
+      "readbacks": {
+        "before": {
+          "code": "FLW04",
+          "status": "e",
+          "total": "20.00",
+          "cancellationDate": null,
+          "positions": [
+            {
+              "id": 27,
+              "canceled": false
+            }
+          ],
+          "payments": [],
+          "fees": [],
+          "refunds": []
+        },
+        "paid": {
+          "code": "FLW04",
+          "status": "p",
+          "total": "20.00",
+          "cancellationDate": null,
+          "positions": [
+            {
+              "id": 27,
+              "canceled": false
+            }
+          ],
+          "payments": [
+            {
+              "id": 1,
+              "amount": "20.00",
+              "provider": "manual",
+              "state": "confirmed",
+              "date": "2026-11-23T11:42:08.982087Z"
+            }
+          ],
+          "fees": [],
+          "refunds": []
+        },
+        "canceled": {
+          "code": "FLW04",
+          "status": "c",
+          "total": "20.00",
+          "cancellationDate": "2026-11-23T11:42:18.665250Z",
+          "positions": [
+            {
+              "id": 27,
+              "canceled": false
+            }
+          ],
+          "payments": [
+            {
+              "id": 1,
+              "amount": "20.00",
+              "provider": "manual",
+              "state": "confirmed",
+              "date": "2026-11-23T11:42:08.982087Z"
+            }
+          ],
+          "fees": [],
+          "refunds": []
+        }
+      }
+    },
+    {
+      "case": "UC-04-E1 flow_blocked",
+      "result": "passed",
+      "milliseconds": 17554
+    },
+    {
+      "case": "UC-04-E2 flow_reject_fee",
+      "result": "passed",
+      "milliseconds": 27160
+    }
+  ]
+}

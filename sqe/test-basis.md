@@ -10,7 +10,7 @@ Use the seeded EUR 20.00 order in the sqe-orders/orders event. The order code, s
 | Canceled | Neither workflow reopens the order. | Rejected even if a no-fee cancellation preserved position rows. |
 | Positionless or fee-only | Payment on fee-only orders is outside UC-01/02. | Rejected without an active position. |
 
-For no-fee cancellation, the order retains its total and original position rows and flags. When retaining a fee, active positions are canceled, the fee is stored, and the total is reduced to the fee. Both branches set a cancellation date on the pinned source, including when the retained fee leaves the status paid or pending. The control form rejects EUR 20.01 and excess precision. Its fee-cap message is raised by the form's own cleaning method. Empty and zero normalize to zero. The form accepts a negative value at the scoped boundary; its business interpretation and API treatment still need the teammate contract review. [Order model](../src/pretix/base/models/orders.py) · [Cancellation service](../src/pretix/base/services/orders.py) · [Control form](../src/pretix/control/forms/orders.py) · [REST actions](../src/pretix/api/views/order.py)
+For no-fee cancellation, the order retains its total and original position rows and flags. When retaining a fee, active positions are canceled, the fee is stored, and the total is reduced to the fee. Both branches set a cancellation date on the pinned source, including when the retained fee leaves the status paid or pending. The control form rejects EUR 20.01 and excess precision. Its fee-cap message is raised by the form's own cleaning method. Empty and zero normalize to zero. The form accepts a negative value. The REST run persisted a negative cancellation fee and order total. See the [API findings](member2-api-results.md). [Order model](../src/pretix/base/models/orders.py) · [Cancellation service](../src/pretix/base/services/orders.py) · [Control form](../src/pretix/control/forms/orders.py) · [REST actions](../src/pretix/api/views/order.py)
 
 ## BR-02 decision table and CFG
 
@@ -75,15 +75,17 @@ For UC-01 exception 1, the payment form rejected EUR 20.001 and redirected to th
 
 | Requirement | Rule | Current coverage and risk |
 | --- | --- | --- |
-| PAY-01 | BR-01 | Unit full/partial cases, fixture W1, UC-01. R1 and R2. |
-| PAY-02 | BR-01 | Unit expired eligible and quota cases, UC-01. R3. |
-| PAY-03 | BR-01 | Unit same-payment repeat. API repeat remains open. R1. |
-| PAY-04 | BR-01 | Viewer can read in smoke. Member 3 still verifies the denied payment action. R4. |
-| CAN-01 | BR-02 and BR-04 | Unit paid/no-fee, fixture W2, UC-02. R2 and R7. |
-| CAN-02 | BR-03 and BR-04 | Unit funded and unfunded retained fee. UC-03/04 remain open. R5. |
-| CAN-03 | BR-03 | Unit cap boundary and rollback. API and UC-03/06 remain open. R5 and R6. |
-| CAN-04 | BR-02 | Unit MCC and invalid states, UC-02 canceled order. API replay remains open. R1 and R7. |
-| CAN-05 | BR-02 | UC-02 viewer denial and persisted state. API authorization remains open. R4. |
+| PAY-01 | BR-01 | Unit full/partial, fixture W1, API pending payment, UC-01 and UC-04. R1 and R2. |
+| PAY-02 | BR-01 | Unit and API expired/quota cases, UC-01 and UC-04. REST quota rejection leaves a confirmed payment. R3. |
+| PAY-03 | BR-01 | Unit same-payment repeat and API mark-paid replay with stored payment comparison. R1. |
+| PAY-04 | BR-01 | API viewer read and denied payment with unchanged order. Member 3 owns the browser role matrix. R4. |
+| CAN-01 | BR-02 and BR-04 | Unit and API no-fee cancellation, fixture W2, UC-02 and UC-04. R2 and R7. |
+| CAN-02 | BR-03 and BR-04 | Unit retained fee, API same-order funded fee, UC-03 and UC-04 retained-fee readbacks. R5. |
+| CAN-03 | BR-03 | Unit, API and UC-03 cap/precision checks. API lower bound and empty fee findings remain open. UC-06 belongs to Member 3. R5 and R6. |
+| CAN-04 | BR-02 | Unit MCC, UC-02 canceled order, API cancellation replay and positionless denial. R1 and R7. |
+| CAN-05 | BR-02 | UC-02 viewer denial and API anonymous/viewer cancellation denials with fresh reads. R4. |
+
+Member 2's results and case IDs are recorded in the [API matrix](member2-api-results.md) and [UC-03/04 specifications](use-cases/uc03-uc04.md).
 
 ## Risks and release criteria
 

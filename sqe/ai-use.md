@@ -7,6 +7,8 @@
 
 The work request and verification instructions are retained in the project conversation. Tawassul should record the tests rerun and edits made during individual review before submitting the final package.
 
+Member 2 used OpenAI Codex to implement the contract, generator, API cases, fixtures, Playwright cases and evidence summaries. Verification included independent classification checks on both datasets, a native Windows loopback API run and the combined 20-case Chromium run. [API findings](member2-api-results.md) · [Browser results](member2-browser-results.md)
+
 ## Member 3 (Zubair) — 23 Nov 2026
 
 Tool: Claude Code (model Claude Opus 5.5), run locally in the repository on branch `zubair/develop` and `zubair/feature/*`. Commits are authored by Member 3; the work the tool produced is listed in the table below. The full conversation (prompts and outputs) is kept by Member 3.
