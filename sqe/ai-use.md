@@ -9,7 +9,7 @@ The work request and verification instructions are retained in the project conve
 
 ## Member 3 (Zubair) — 23 Nov 2026
 
-Tool: Claude Code (model Claude Opus 5.5), run locally in the repository on branch `zubair/develop` and `zubair/feature/*`. Every commit it made carries a `Co-Authored-By: Claude` trailer. The full conversation (prompts and outputs) is kept by Member 3.
+Tool: Claude Code (model Claude Opus 5.5), run locally in the repository on branch `zubair/develop` and `zubair/feature/*`. Commits are authored by Member 3; the work the tool produced is listed in the table below. The full conversation (prompts and outputs) is kept by Member 3.
 
 | Tool | Purpose | Output | Verification performed (by the tool, during the session) |
 | --- | --- | --- | --- |
