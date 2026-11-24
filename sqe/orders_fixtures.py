@@ -210,7 +210,8 @@ def verify():
     email = config['roles']['manager']['email']
     if not anonymous.login(email=email, password=config['roles']['manager']['password']):
         raise RuntimeError('Could not log in with the seeded manager.')
-    control = anonymous.get(f'/control/event/{ORGANIZER}/{EVENT}/orders/')
+    # Search for the order: with more than one page of fixtures it may not be on the first page.
+    control = anonymous.get(f'/control/event/{ORGANIZER}/{EVENT}/orders/', {'query': config['orders']['journey']})
     if control.status_code != 200 or config['orders']['journey'] not in control.content.decode():
         raise RuntimeError(f'Control order list did not show the seeded journey. HTTP {control.status_code}.')
     print('Control manager login and order list passed. API anonymous 401 and scoped viewer 200.')
